@@ -1,67 +1,59 @@
-name: CI
+name: HEXO CI
 
 on:
   push:
     branches:
-      - main
+    - master
 
 env:
   GIT_USER: qluo123
   GIT_EMAIL: 2943693084@qq.com
   THEME_REPO: sanonz/hexo-theme-concise
   THEME_BRANCH: master
-  DEPLOY_REPO: qluo123/static_blog.github.io
-  DEPLOY_BRANCH: main
 
 jobs:
   build:
-    name: Build on node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        node_version: [16.x]
+        node-version: [16.x]
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
       - name: Checkout theme repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
         with:
           repository: ${{ env.THEME_REPO }}
           ref: ${{ env.THEME_BRANCH }}
-          path: themes/concise
+          path: themes/butterfly
 
-      - name: Checkout deploy repo
-        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
-          repository: ${{ env.DEPLOY_REPO }}
-          ref: ${{ env.DEPLOY_BRANCH }}
-          path: .deploy_git
-
-      - name: Use Node.js ${{ matrix.node_version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node_version }}
+          node-version: ${{ matrix.node-version }}
 
       - name: Configuration environment
         env:
           HEXO_DEPLOY_PRI: ${{secrets.HEXO_DEPLOY_PRI}}
         run: |
-          sudo timedatectl set-timezone "Asia/Shanghai"
           mkdir -p ~/.ssh/
           echo "$HEXO_DEPLOY_PRI" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global user.name $GIT_USER
           git config --global user.email $GIT_EMAIL
-          cp _config.theme.yml themes/concise/_config.yml
-
       - name: Install dependencies
         run: |
-          npm install
-
+          npm i -g hexo-cli
+          npm i
       - name: Deploy hexo
         run: |
-          npm run deploy
+          hexo clean && hexo generate && hexo deploy
+
+
+作者: Diego
+链接: https://diego369.github.io/2022/04/09/github-action-hexo/index.html
+来源: 天涯路远
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
