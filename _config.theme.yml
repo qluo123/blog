@@ -1,0 +1,47 @@
+# Header
+menu:
+  首页: /
+  技术: /categories/technology
+  学习: /categories/student
+  标签: /tags
+  归档: /archives
+  订阅: /atom.xml
+  关于: /about
+
+# Content
+excerpt_link: 阅读更多
+content_max_width: 800px
+
+# Sidebar
+author:
+  name: 秦洛
+  work: 在校本科专业生
+  location: 青岛, China
+  avatar_url: /images/avatar.jpg
+
+# Links:
+links:
+  - svg: ./source/svg/_github.svg
+    url: https://github.com/qluo123
+
+
+
+# github comment 
+git_commit:
+  enable: true
+  client_id: Ov23lif2o8jkN51szUAu
+  client_secret: 8ad4798ca7a4ba73f3eb446da302cf3922244a4c
+  repo: static_blog.github.io
+  owner: qluo123
+  admin:
+    - qluo123
+  per_page: 10
+
+
+# 百度统计
+baidu:
+  id: e4027971a230b210f4671f485b33846a
+
+# Miscellaneous
+rss: /atom.xml
+favicon: /images/favicon.ico
